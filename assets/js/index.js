@@ -14,8 +14,8 @@ var getNotes = function() {
   return $.ajax({
     url: "/api/notes",
     method: "GET"
-  }).then(function(response) {
-    console.log(response);
+  }).then(function(data) {
+    return data;
   });
 }
 
