@@ -1,0 +1,31 @@
+{
+  "name": "quicknotes",
+  "version": "1.0.0",
+  "description": "An application to create quick and easy notes.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timothymickiewicz/QuickNotes.git"
+  },
+  "keywords": [
+    "Notes",
+    "note-taking",
+    "notepad",
+    "timothy",
+    "mickiewicz"
+  ],
+  "author": "Timothy Mickiewicz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timothymickiewicz/QuickNotes/issues"
+  },
+  "homepage": "https://github.com/timothymickiewicz/QuickNotes#readme"
+}
