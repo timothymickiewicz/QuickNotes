@@ -4,32 +4,25 @@ var path = require("path");
 
 // Sets up the Express App
 var app = express();
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
+app.use(express.static(__dirname + '/assets/css'));
+app.use(express.static(__dirname + '/assets/js'));
+app.use(express.static(__dirname));
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Notes object
-let notes = [
-    // {
-    //   name: "someone",
-    //   info: "info"
-    // }
-];
+// Creating notes object
+let notesArray = [];
 
 // Sends the user to the the index and notes pages
-app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-  
-app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "notes.html"));
-});
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, "index.html")));
+app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, "notes.html")));
 
 // Displays all notes
 app.get("/api/notes", function(req, res) {
-    res.json(notes);
+    res.json(notesArray);
 });
   
 // Create new note

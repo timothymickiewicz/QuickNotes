@@ -3,7 +3,9 @@ var $noteText = $(".note-textarea");
 var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
-
+$.getJSON("db.json", function(json) {
+  console.log(json); // this will show the info it in firebug console
+});
 // activeNote is used to keep track of the note in the textarea
 var activeNote = {};
 
@@ -12,8 +14,10 @@ var getNotes = function() {
   return $.ajax({
     url: "/api/notes",
     method: "GET"
+  }).then(function(response) {
+    console.log(response);
   });
-};
+}
 
 // A function for saving a note to the db
 var saveNote = function(note) {
@@ -87,7 +91,7 @@ var handleNoteView = function() {
   renderActiveNote();
 };
 
-// Sets the activeNote to and empty object and allows the user to enter a new note
+// Sets the activeNote to an empty object and allows the user to enter a new note
 var handleNewNoteView = function() {
   activeNote = {};
   renderActiveNote();
@@ -141,3 +145,4 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+
