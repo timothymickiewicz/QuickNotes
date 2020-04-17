@@ -3,9 +3,7 @@ var $noteText = $(".note-textarea");
 var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
-$.getJSON("db.json", function(json) {
-  console.log(json); // this will show the info it in firebug console
-});
+
 // activeNote is used to keep track of the note in the textarea
 var activeNote = {};
 
@@ -14,9 +12,7 @@ var getNotes = function() {
   return $.ajax({
     url: "/api/notes",
     method: "GET"
-  }).then(function(data) {
-    return data;
-  });
+  })
 }
 
 // A function for saving a note to the db
@@ -50,6 +46,7 @@ var renderActiveNote = function() {
     $noteText.attr("readonly", false);
     $noteTitle.val("");
     $noteText.val("");
+    console.log("you failed")
   }
 };
 
@@ -121,7 +118,7 @@ var renderNoteList = function(notes) {
     var $delBtn = $(
       "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
     );
-
+      console.log($li.data(note));
     $li.append($span, $delBtn);
     noteListItems.push($li);
   }
@@ -145,4 +142,3 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
-
