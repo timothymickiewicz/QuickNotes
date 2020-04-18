@@ -4,7 +4,8 @@ var path = require("path");
 var fs = require("fs");
 var file_content = fs.readFileSync("db.json");
 var content = JSON.parse(file_content)
-var id = 0;
+var uuid = require('uuid');
+var newData = [];
 
 // Sets up the Express App
 var app = express();
@@ -29,9 +30,8 @@ app.get("/api/notes", function(req, res) {
 // Create new note
 app.post("/api/notes", function(req, res) {
     var note = req.body; 
-    id = content.length;
+    var id = uuid.v4(); 
     note.id = `${id}`;
-    console.log(note);
     content.push(note);
     var contentSendBack = JSON.stringify(content);
     fs.writeFile("db.json", contentSendBack, (err) => {
@@ -43,14 +43,15 @@ app.post("/api/notes", function(req, res) {
 
 // Delete note
 app.delete("/api/notes:id", function(req, res) {
-    console.log("deleting everything!")
-    fs.readFile("db.json", (err, data) => {
-        if (err) {
-          console.error(err)
-          return
+    let jsonData = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+    let noteID = (req.originalUrl.replace(/\?.*$/, '')).split(':')[1];
+    for (var i=0;i<jsonData.length;i++) {
+        if (jsonData[i].id === noteID) {
+            jsonData.splice(i, 1);
+            newData.push(JSON.stringify(jsonData));
         }
-        console.log(data);
-    })
+    }
+    fs.writeFileSync("db.json", newData);
 });
 
 // Starts the server to begin listening
