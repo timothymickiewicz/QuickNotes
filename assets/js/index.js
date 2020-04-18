@@ -26,6 +26,7 @@ var saveNote = function(note) {
 
 // A function for deleting a note from the db
 var deleteNote = function(id) {
+  console.log("deleteNote is probably running");
   return $.ajax({
     url: "api/notes:" + id,
     method: "DELETE"
@@ -46,10 +47,6 @@ var renderActiveNote = function() {
     $noteText.attr("readonly", false);
     $noteTitle.val("");
     $noteText.val("");
-    console.log(activeNote.title);
-    console.log(activeNote.text);
-    console.log(activeNote.id);
-    console.log("you failed")
   }
 };
 
@@ -70,16 +67,14 @@ var handleNoteSave = function() {
 var handleNoteDelete = function(event) {
   // prevents the click listener for the list from being called when the button inside of it is clicked
   event.stopPropagation();
-
   var note = $(this)
     .parent(".list-group-item")
     .data();
-
   if (activeNote.id === note.id) {
     activeNote = {};
   }
-
   deleteNote(note.id).then(function() {
+    console.log("deleteNote is running");
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -88,6 +83,8 @@ var handleNoteDelete = function(event) {
 // Sets the activeNote and displays it
 var handleNoteView = function() {
   activeNote = $(this).data();
+  console.log(activeNote);
+  console.log(activeNote.id);
   renderActiveNote();
 };
 
@@ -110,8 +107,9 @@ var handleRenderSaveBtn = function() {
 // Render's the list of note titles
 var renderNoteList = function(notes) {
   $noteList.empty();
-
-  var noteListItems = [];
+  console.log("running rendernotelist");
+  console.log(notes);
+  var noteListItems = []; 
 
   for (var i = 0; i < notes.length; i++) {
     var note = notes[i];
@@ -121,7 +119,6 @@ var renderNoteList = function(notes) {
     var $delBtn = $(
       "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
     );
-      console.log($li.data(note));
     $li.append($span, $delBtn);
     noteListItems.push($li);
   }

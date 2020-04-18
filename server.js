@@ -3,9 +3,8 @@ var express = require("express");
 var path = require("path");
 var fs = require("fs");
 var file_content = fs.readFileSync("db.json");
-var content = JSON.parse(file_content)
+var notes = JSON.parse(file_content)
 var uuid = require('uuid');
-var newData = [];
 
 // Sets up the Express App
 var app = express();
@@ -24,7 +23,7 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, "notes.html"))
 
 // Displays all notes
 app.get("/api/notes", function(req, res) {
-    return res.json(content);
+    return res.json(notes);
 });
   
 // Create new note
@@ -32,8 +31,8 @@ app.post("/api/notes", function(req, res) {
     var note = req.body; 
     var id = uuid.v4(); 
     note.id = `${id}`;
-    content.push(note);
-    var contentSendBack = JSON.stringify(content);
+    notes.push(note);
+    var contentSendBack = JSON.stringify(notes);
     fs.writeFile("db.json", contentSendBack, (err) => {
         if (err) throw err;
         console.log(`${note} written to file`);
@@ -43,15 +42,19 @@ app.post("/api/notes", function(req, res) {
 
 // Delete note
 app.delete("/api/notes:id", function(req, res) {
+    console.log(notes);
     let jsonData = JSON.parse(fs.readFileSync("db.json", "utf-8"));
     let noteID = (req.originalUrl.replace(/\?.*$/, '')).split(':')[1];
     for (var i=0;i<jsonData.length;i++) {
         if (jsonData[i].id === noteID) {
+            notes = [];
             jsonData.splice(i, 1);
-            newData.push(JSON.stringify(jsonData));
+            notes.push(JSON.stringify(jsonData));
         }
     }
-    fs.writeFileSync("db.json", newData);
+    fs.writeFileSync("db.json", notes);
+    console.log(JSON.parse(notes));
+    res.send(JSON.parse(notes));
 });
 
 // Starts the server to begin listening
