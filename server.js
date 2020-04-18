@@ -35,26 +35,26 @@ app.post("/api/notes", function(req, res) {
     var contentSendBack = JSON.stringify(notes);
     fs.writeFile("db.json", contentSendBack, (err) => {
         if (err) throw err;
-        console.log(`${note} written to file`);
     });
     res.json(note);
 });
 
 // Delete note
 app.delete("/api/notes:id", function(req, res) {
-    console.log(notes);
     let jsonData = JSON.parse(fs.readFileSync("db.json", "utf-8"));
     let noteID = (req.originalUrl.replace(/\?.*$/, '')).split(':')[1];
     for (var i=0;i<jsonData.length;i++) {
         if (jsonData[i].id === noteID) {
-            notes = [];
+            notes = []
             jsonData.splice(i, 1);
-            notes.push(JSON.stringify(jsonData));
+            for (i=0;i<jsonData.length;i++) {
+                notes.push(jsonData[i]);
+            }
         }
     }
-    fs.writeFileSync("db.json", notes);
-    console.log(JSON.parse(notes));
-    res.send(JSON.parse(notes));
+    console.log(notes);
+    fs.writeFileSync("db.json", JSON.stringify(notes));
+    return res.json(notes);
 });
 
 // Starts the server to begin listening
