@@ -26,7 +26,6 @@ var saveNote = function(note) {
 
 // A function for deleting a note from the db
 var deleteNote = function(id) {
-  console.log("deleteNote is probably running");
   return $.ajax({
     url: "api/notes:" + id,
     method: "DELETE"
@@ -56,7 +55,6 @@ var handleNoteSave = function() {
     title: $noteTitle.val(),
     text: $noteText.val()
   };
-
   saveNote(newNote).then(function(data) {
     getAndRenderNotes();
     renderActiveNote();
@@ -74,7 +72,6 @@ var handleNoteDelete = function(event) {
     activeNote = {};
   }
   deleteNote(note.id).then(function() {
-    console.log("deleteNote is running");
     getAndRenderNotes();
     renderActiveNote();
   });
@@ -105,17 +102,10 @@ var handleRenderSaveBtn = function() {
 // Render's the list of note titles
 var renderNoteList = function(notes) {
   $noteList.empty();
-  console.log(notes);
   var noteListItems = []; 
-
   for (var i = 0; i < notes.length; i++) {
-    console.log("for loop running");
-    console.log(notes[i]);
-    console.log(notes);
     var note = notes[i];
-
     var $li = $("<li class='list-group-item'>").data(note);
-    console.log($li);
     var $span = $("<span>").text(note.title);
     var $delBtn = $(
       "<i class='fas fa-trash-alt float-right text-danger delete-note'>"
@@ -123,15 +113,12 @@ var renderNoteList = function(notes) {
     $li.append($span, $delBtn);
     noteListItems.push($li);
   }
-
   $noteList.append(noteListItems);
 };
 
 // Gets notes from the db and renders them to the sidebar
 var getAndRenderNotes = function() {
-  console.log("getandrender running");
   return getNotes().then(function(data) {
-    console.log("if get this far should work");
     renderNoteList(data);
   });
 };
