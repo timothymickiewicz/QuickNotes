@@ -4,6 +4,7 @@
   "description": "An application to create quick and easy notes.",
   "main": "server.js",
   "dependencies": {
+    "cfonts": "^2.8.1",
     "express": "^4.17.1",
     "nodemon": "^2.0.3",
     "uuid": "^7.0.3"
